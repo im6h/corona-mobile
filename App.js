@@ -11,7 +11,7 @@ import store from './src/Stores';
 const App = () => {
   return (
     <Provider {...store}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="light-content" />
 
       <View style={{flex: 1}}>
         <Containers />
