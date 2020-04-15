@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Text, SafeAreaView, Platform} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import AlertScreen from '../Screens/Alert/AlertScreen';
@@ -39,21 +39,30 @@ function Containers() {
           },
         })}
         tabBarOptions={{
-          labelStyle: {fontSize: 10},
           showIcon: true,
           activeTintColor: colors.backgroundColor,
           inactiveTintColor: '#dfe1e4',
           indicatorStyle: {
             height: 0,
           },
-          showLabel: false,
-          tabStyle: {marginBottom: 20},
+          ...Platform.select({
+            ios: {
+              showLabel: false,
+              tabStyle: {
+                marginBottom: 20,
+              },
+            },
+            android: {
+              showLabel: false,
+              tabStyle: {
+                marginBottom: 0,
+              },
+            },
+          }),
         }}
         tabBarPosition="bottom"
         initialRouteName="Home"
-        swipeEnabled={true}
-        activeColor={colors.backgroundColor}
-        inactiveColor={colors.grayText}>
+        swipeEnabled={true}>
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Statistics" component={StatisticsScreen} />
         <Tab.Screen name="News" component={NewScreen} />

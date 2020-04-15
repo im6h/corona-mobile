@@ -1,17 +1,19 @@
 import React from 'react';
-import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
+import {SafeAreaView, Text, View, StyleSheet, ScrollView} from 'react-native';
+import colors from '../../Themes/colors';
+import fonts from '../../Themes/fonts';
 function NewScreen() {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>This is new screen</Text>
+    <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
+      <ScrollView style={{flex: 1}}>
+        <View></View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 export default NewScreen;
