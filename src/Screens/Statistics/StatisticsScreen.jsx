@@ -6,225 +6,274 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  Animated,
+  Dimensions,
 } from 'react-native';
 import colors from '../../Themes/colors';
 import fonts from '../../Themes/fonts';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Feather from 'react-native-vector-icons/Feather';
-function StatisticsScreen() {
-  return (
-    <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
-      {/* <ScrollView style={{flex: 1, backgroundColor: colors.white}}> */}
-      <View style={styles.container}>
-        <View style={styles.top}>
-          <View style={styles.toolBar}>
-            <Icon name="ios-menu" size={27} color={colors.white} />
-            <Icon
-              name="ios-notifications-outline"
-              size={27}
-              color={colors.white}
-            />
-          </View>
-          <View style={styles.title}>
-            <Text style={styles.covid}>Statistics</Text>
-          </View>
-          <View style={styles.content}>
-            <View style={styles.select}>
-              <TouchableOpacity style={styles.button}>
-                <Text
-                  style={{
-                    fontSize: fonts.sm,
-                    fontWeight: 'bold',
-                  }}>
-                  My Country
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, {backgroundColor: 'transparent'}]}>
-                <Text
-                  style={{
-                    fontSize: fonts.sm,
-                    color: colors.white,
-                    fontWeight: 'bold',
-                  }}>
-                  Global
-                </Text>
-              </TouchableOpacity>
+const {width} = Dimensions.get('window');
+class StatisticsScreen extends React.Component {
+  state = {
+    active: 0,
+    xTabOne: 0,
+    xTabTwo: 0,
+    translateX: new Animated.Value(0),
+  };
+  handleSlide = (type) => {
+    let {translateX} = this.state;
+    Animated.spring(translateX, {
+      toValue: type,
+      duration: 200,
+      useNativeDriver: true,
+    }).start();
+  };
+  render() {
+    let {xTabOne, xTabTwo, translateX, active} = this.state;
+    return (
+      <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
+        {/* <ScrollView style={{flex: 1, backgroundColor: colors.white}}> */}
+        <View style={styles.container}>
+          <View style={styles.top}>
+            <View style={styles.toolBar}>
+              <Icon name="ios-menu" size={27} color={colors.white} />
+              <Icon
+                name="ios-notifications-outline"
+                size={27}
+                color={colors.white}
+              />
             </View>
-            <View style={styles.detail}>
-              <View style={styles.time}>
-                <Text
+            <View style={styles.title}>
+              <Text style={styles.covid}>Statistics</Text>
+            </View>
+            <View style={styles.content}>
+              <View style={styles.select}>
+                <Animated.View
                   style={{
-                    fontSize: fonts.sm,
-                    color: colors.white,
-                    fontWeight: 'bold',
-                  }}>
-                  Total
-                </Text>
-                <Text
-                  style={{
-                    fontSize: fonts.sm,
-                    color: colors.grayText,
-                    fontWeight: 'bold',
-                  }}>
-                  Today
-                </Text>
-                <Text
-                  style={{
-                    fontSize: fonts.sm,
-                    color: colors.grayText,
-                    fontWeight: 'bold',
-                  }}>
-                  Yesterday
-                </Text>
+                    position: 'absolute',
+                    width: '47%',
+                    height: '80%',
+                    top: 5,
+                    left: 5,
+                    backgroundColor: colors.white,
+                    borderRadius: 40,
+                    transform: [{translateX}],
+                  }}
+                />
+                <TouchableOpacity
+                  style={styles.button}
+                  onLayout={(event) =>
+                    this.setState({
+                      xTabOne: event.nativeEvent.layout.x,
+                    })
+                  }
+                  onPress={() =>
+                    this.setState({active: 0}, () => this.handleSlide(xTabOne))
+                  }>
+                  <Text
+                    style={{
+                      fontSize: fonts.sm,
+                      color: active === 0 ? 'black' : colors.white,
+                      fontWeight: 'bold',
+                    }}>
+                    My Country
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onLayout={(event) =>
+                    this.setState({
+                      xTabTwo: event.nativeEvent.layout.x,
+                    })
+                  }
+                  onPress={() =>
+                    this.setState({active: 1}, () => this.handleSlide(xTabTwo))
+                  }>
+                  <Text
+                    style={{
+                      fontSize: fonts.sm,
+                      color: active === 1 ? 'black' : colors.white,
+                      fontWeight: 'bold',
+                    }}>
+                    Global
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <View style={styles.data}>
-                <View style={styles.rowOne}>
-                  <View
+              <View style={styles.detail}>
+                <View style={styles.time}>
+                  <Text
                     style={{
-                      flex: 1,
-                      marginRight: 5,
-                      backgroundColor: colors.orangeAffect,
-                      borderRadius: 5,
-                      justifyContent: 'space-between',
-                      padding: 10,
+                      fontSize: fonts.sm,
+                      color: colors.white,
+                      fontWeight: 'bold',
                     }}>
-                    <Text
+                    Total
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: fonts.sm,
+                      color: colors.grayText,
+                      fontWeight: 'bold',
+                    }}>
+                    Today
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: fonts.sm,
+                      color: colors.grayText,
+                      fontWeight: 'bold',
+                    }}>
+                    Yesterday
+                  </Text>
+                </View>
+                <View style={styles.data}>
+                  <View style={styles.rowOne}>
+                    <View
                       style={{
-                        fontSize: fonts.sm,
-                        color: colors.white,
-                        fontWeight: 'bold',
+                        flex: 1,
+                        marginRight: 5,
+                        backgroundColor: colors.orangeAffect,
+                        borderRadius: 5,
+                        justifyContent: 'space-between',
+                        padding: 10,
                       }}>
-                      Affected
-                    </Text>
-                    <Text
+                      <Text
+                        style={{
+                          fontSize: fonts.sm,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        Affected
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: fonts.xl,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        336,851
+                      </Text>
+                    </View>
+                    <View
                       style={{
-                        fontSize: fonts.xl,
-                        color: colors.white,
-                        fontWeight: 'bold',
+                        flex: 1,
+                        marginLeft: 5,
+                        backgroundColor: colors.redDeaths,
+                        borderRadius: 5,
+                        justifyContent: 'space-between',
+                        padding: 10,
                       }}>
-                      336,851
-                    </Text>
+                      <Text
+                        style={{
+                          fontSize: fonts.sm,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        Deaths
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: fonts.xl,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        9,620
+                      </Text>
+                    </View>
                   </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      marginLeft: 5,
-                      backgroundColor: colors.redDeaths,
-                      borderRadius: 5,
-                      justifyContent: 'space-between',
-                      padding: 10,
-                    }}>
-                    <Text
+                  <View style={styles.rowTwo}>
+                    <View
                       style={{
-                        fontSize: fonts.sm,
-                        color: colors.white,
-                        fontWeight: 'bold',
+                        flex: 1,
+                        marginRight: 5,
+                        backgroundColor: colors.greenRecovered,
+                        borderRadius: 5,
+                        justifyContent: 'space-between',
+                        padding: 10,
                       }}>
-                      Deaths
-                    </Text>
-                    <Text
+                      <Text
+                        style={{
+                          fontSize: fonts.sm,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        Recovered
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: fonts.lg,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        336,851
+                      </Text>
+                    </View>
+                    <View
                       style={{
-                        fontSize: fonts.xl,
-                        color: colors.white,
-                        fontWeight: 'bold',
+                        flex: 1,
+                        marginRight: 5,
+                        marginLeft: 5,
+                        backgroundColor: colors.blueActive,
+                        borderRadius: 5,
+                        justifyContent: 'space-between',
+                        padding: 10,
                       }}>
-                      9,620
-                    </Text>
+                      <Text
+                        style={{
+                          fontSize: fonts.sm,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        Active
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: fonts.lg,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        336,851
+                      </Text>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        marginLeft: 5,
+                        backgroundColor: colors.violetSerious,
+                        borderRadius: 5,
+                        justifyContent: 'space-between',
+                        padding: 10,
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: fonts.sm,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        Serious
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: fonts.lg,
+                          color: colors.white,
+                          fontWeight: 'bold',
+                        }}>
+                        336,851
+                      </Text>
+                    </View>
                   </View>
                 </View>
-                <View style={styles.rowTwo}>
-                  <View
-                    style={{
-                      flex: 1,
-                      marginRight: 5,
-                      backgroundColor: colors.greenRecovered,
-                      borderRadius: 5,
-                      justifyContent: 'space-between',
-                      padding: 10,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: fonts.sm,
-                        color: colors.white,
-                        fontWeight: 'bold',
-                      }}>
-                      Recovered
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: fonts.lg,
-                        color: colors.white,
-                        fontWeight: 'bold',
-                      }}>
-                      336,851
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      marginRight: 5,
-                      marginLeft: 5,
-                      backgroundColor: colors.blueActive,
-                      borderRadius: 5,
-                      justifyContent: 'space-between',
-                      padding: 10,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: fonts.sm,
-                        color: colors.white,
-                        fontWeight: 'bold',
-                      }}>
-                      Active
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: fonts.lg,
-                        color: colors.white,
-                        fontWeight: 'bold',
-                      }}>
-                      336,851
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      marginLeft: 5,
-                      backgroundColor: colors.violetSerious,
-                      borderRadius: 5,
-                      justifyContent: 'space-between',
-                      padding: 10,
-                    }}>
-                    <Text
-                      style={{
-                        fontSize: fonts.sm,
-                        color: colors.white,
-                        fontWeight: 'bold',
-                      }}>
-                      Serious
-                    </Text>
-                    <Text
-                      style={{
-                        fontSize: fonts.lg,
-                        color: colors.white,
-                        fontWeight: 'bold',
-                      }}>
-                      336,851
-                    </Text>
-                  </View>
-                </View>
               </View>
             </View>
           </View>
+          <View style={styles.bottom}>
+            <Text style={styles.textStatis}>Chart</Text>
+          </View>
         </View>
-        <View style={styles.bottom}>
-          <Text style={styles.textStatis}>Chart</Text>
-        </View>
-      </View>
-      {/* </ScrollView> */}
-    </SafeAreaView>
-  );
+        {/* </ScrollView> */}
+      </SafeAreaView>
+    );
+  }
 }
 const styles = StyleSheet.create({
   container: {
@@ -283,9 +332,6 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    margin: 5,
-    backgroundColor: colors.white,
-    borderRadius: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },
