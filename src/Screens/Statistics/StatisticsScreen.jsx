@@ -83,8 +83,8 @@ class StatisticsScreen extends React.Component {
                   style={{
                     position: 'absolute',
                     width: '47%',
-                    height: '80%',
-                    top: 5,
+                    height: '78%',
+
                     left: 5,
                     backgroundColor: colors.white,
                     borderRadius: 40,
@@ -138,27 +138,11 @@ class StatisticsScreen extends React.Component {
                 <View style={styles.time}>
                   <Text
                     style={{
-                      fontSize: fonts.sm,
+                      fontSize: fonts.md,
                       color: colors.white,
                       fontWeight: 'bold',
                     }}>
                     Total
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: fonts.sm,
-                      color: colors.grayText,
-                      fontWeight: 'bold',
-                    }}>
-                    Today
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: fonts.sm,
-                      color: colors.grayText,
-                      fontWeight: 'bold',
-                    }}>
-                    Yesterday
                   </Text>
                 </View>
                 <View style={styles.data}>
@@ -191,7 +175,6 @@ class StatisticsScreen extends React.Component {
                           countBy={123456}
                           interval={5}
                         />
-                        {/* {accounting.formatNumber(dataGlobal.cases)} */}
                       </Text>
                     </View>
                     <View
@@ -221,11 +204,7 @@ class StatisticsScreen extends React.Component {
                           value={dataStats.active}
                           countBy={123456}
                           interval={5}
-                          // formatter={() => {
-                          //   return accounting.formatNumber(dataGlobal.cases);
-                          // }}
                         />
-                        {/* {accounting.formatNumber(dataGlobal.active)} */}
                       </Text>
                     </View>
                   </View>
@@ -257,11 +236,7 @@ class StatisticsScreen extends React.Component {
                           value={dataStats.recovered}
                           countBy={100000}
                           interval={5}
-                          // formatter={() => {
-                          //   return accounting.formatNumber(dataGlobal.cases);
-                          // }}
                         />
-                        {/* {accounting.formatNumber(dataGlobal.recovered)} */}
                       </Text>
                     </View>
                     <View
@@ -292,11 +267,7 @@ class StatisticsScreen extends React.Component {
                           value={dataStats.deaths}
                           countBy={10000}
                           interval={5}
-                          // formatter={() => {
-                          //   return accounting.formatNumber(dataGlobal.cases);
-                          // }}
                         />
-                        {/* {accounting.formatNumber(dataGlobal.deaths)} */}
                       </Text>
                     </View>
                     <View
@@ -326,11 +297,7 @@ class StatisticsScreen extends React.Component {
                           value={dataStats.critical}
                           countBy={10000}
                           interval={5}
-                          // formatter={() => {
-                          //   return accounting.formatNumber(dataGlobal.cases);
-                          // }}
                         />
-                        {/* {accounting.formatNumber(dataGlobal.critical)} */}
                       </Text>
                     </View>
                   </View>
@@ -396,6 +363,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     backgroundColor: colors.blueDailyNewCase,
     borderRadius: 40,
   },

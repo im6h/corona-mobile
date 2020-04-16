@@ -6,11 +6,12 @@ class ApiService {
     return axios.get('https://corona.lmao.ninja/all');
   }
 
-  async getAllData() {
-    return axios.get('');
-  }
   async getDataCountry() {
     return axios.get('https://corona.lmao.ninja/countries/VN');
+  }
+
+  async getCountry() {
+    return axios.get('https://corona.lmao.ninja/countries/');
   }
 }
 const apiService = new ApiService();

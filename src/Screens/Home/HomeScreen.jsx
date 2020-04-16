@@ -1,13 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
   TouchableOpacity,
   Dimensions,
   ScrollView,
+  Image,
+  FlatList,
+  TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -18,12 +20,86 @@ import AvoidContact from '../../Assets/Svgs/XMLID80.svg';
 import CleanHand from '../../Assets/Svgs/XMLID15.svg';
 import Facemask from '../../Assets/Svgs/Group.svg';
 import Banner from '../../Assets/Svgs/Group32.svg';
+import Axios from 'axios';
 
 const screenWidth = Dimensions.get('window').width;
 
-function HomeScreen() {
+const HomeScreen = () => {
+  const [visible, setVisible] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const handleModal = () => {
+    setVisible(!visible);
+  };
+
+  const fetchCountries = async () => {
+    const response = await Axios.get('https://corona.lmao.ninja/countries/');
+    if (response.status === 200 && response.data) {
+      let data = response.data;
+      setCountries(data);
+    }
+  };
+  const Item = ({item}) => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          margin: 10,
+        }}>
+        <Image
+          source={{uri: item.countryInfo.flag}}
+          style={{
+            height: 25,
+            width: 25,
+            borderRadius: 50,
+          }}
+        />
+        <View style={{justifyContent: 'flex-start', marginLeft: 20}}>
+          <Text>{item.country}</Text>
+        </View>
+      </View>
+    );
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
+      {visible && (
+        <View style={styles.modal}>
+          <View style={styles.modalContent}>
+            <View
+              style={{
+                height: '10%',
+                width: '100%',
+                flexDirection: 'row-reverse',
+                padding: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleModal();
+                }}>
+                <Icon name="ios-close-circle-outline" size={25} />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <FlatList
+                data={countries}
+                extraData={countries}
+                keyExtractor={({item}, index) => index.toString()}
+                renderItem={({item}) => {
+                  return <Item item={item} />;
+                }}
+              />
+            </View>
+          </View>
+        </View>
+      )}
+
       <ScrollView style={{flex: 1, backgroundColor: colors.white}}>
         <View style={styles.container}>
           <View style={styles.top}>
@@ -39,15 +115,39 @@ function HomeScreen() {
               <Text style={styles.covid}>Covid-19</Text>
               <TouchableOpacity
                 style={{
-                  width: 120,
+                  width: 100,
                   height: 40,
-                  borderColor: 'transparent',
-                  backgroundColor: colors.white,
-                  borderRadius: 20,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                }}
+                onPress={() => {
+                  handleModal();
+                  fetchCountries();
                 }}>
-                <Text>USA</Text>
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    borderColor: 'transparent',
+                    backgroundColor: colors.white,
+                    borderRadius: 20,
+                    justifyContent: 'space-evenly',
+                    alignItems: 'center',
+                  }}>
+                  <Image
+                    style={{
+                      height: 25,
+                      width: 25,
+                      borderRadius: 50,
+                    }}
+                    source={{
+                      uri:
+                        'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/vn.png',
+                    }}
+                  />
+                  <Text style={[styles.textPrevent, {fontSize: fonts.md}]}>
+                    VN
+                  </Text>
+                </View>
               </TouchableOpacity>
             </View>
             <View style={styles.content}>
@@ -125,7 +225,7 @@ function HomeScreen() {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -216,6 +316,33 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 10,
     textAlign: 'center',
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    zIndex: 999,
+  },
+  modalContent: {
+    height: '90%',
+    width: '80%',
+    marginTop: 10,
+    backgroundColor: colors.white,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 11.14,
+    elevation: 17,
+    borderRadius: 15,
   },
 });
 

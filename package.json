@@ -19,6 +19,7 @@
     "axios": "^0.19.2",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
+    "mobx-react-lite": "^2.0.6",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-animate-number": "^0.1.2",
