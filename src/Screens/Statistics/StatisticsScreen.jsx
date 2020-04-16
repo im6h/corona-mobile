@@ -11,25 +11,56 @@ import {
 } from 'react-native';
 import colors from '../../Themes/colors';
 import fonts from '../../Themes/fonts';
+
 import Icon from 'react-native-vector-icons/Ionicons';
+import {inject, observer} from 'mobx-react';
+import accounting from 'accounting';
+import AnimateNumber from 'react-native-animate-number';
 const {width} = Dimensions.get('window');
+
+@inject('statsStore')
+@observer
 class StatisticsScreen extends React.Component {
   state = {
     active: 0,
     xTabOne: 0,
     xTabTwo: 0,
     translateX: new Animated.Value(0),
+    valueInit: 0,
   };
+  async componentDidMount() {
+    await this.fetchDataCountry();
+  }
+
   handleSlide = (type) => {
-    let {translateX} = this.state;
+    let {translateX, valueInit} = this.state;
     Animated.spring(translateX, {
       toValue: type,
       duration: 200,
       useNativeDriver: true,
     }).start();
   };
+  transformNumber = (value) => {
+    Animated.timing(value, {
+      duration: 500,
+    });
+  };
+  fetchData = (data) => {
+    console.log(data);
+  };
+  fetchDataGlobal = async () => {
+    if (this.state.active === 1) {
+      this.props.statsStore.getDataGlobal();
+    }
+  };
+  fetchDataCountry = async () => {
+    if (this.state.active === 0) {
+      this.props.statsStore.getDataCountry();
+    }
+  };
   render() {
     let {xTabOne, xTabTwo, translateX, active} = this.state;
+    let {dataStats} = this.props.statsStore;
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
         {/* <ScrollView style={{flex: 1, backgroundColor: colors.white}}> */}
@@ -68,7 +99,9 @@ class StatisticsScreen extends React.Component {
                     })
                   }
                   onPress={() =>
-                    this.setState({active: 0}, () => this.handleSlide(xTabOne))
+                    this.setState({active: 0}, () => {
+                      this.handleSlide(xTabOne), this.fetchDataCountry();
+                    })
                   }>
                   <Text
                     style={{
@@ -87,7 +120,9 @@ class StatisticsScreen extends React.Component {
                     })
                   }
                   onPress={() =>
-                    this.setState({active: 1}, () => this.handleSlide(xTabTwo))
+                    this.setState({active: 1}, () => {
+                      this.handleSlide(xTabTwo), this.fetchDataGlobal();
+                    })
                   }>
                   <Text
                     style={{
@@ -151,14 +186,19 @@ class StatisticsScreen extends React.Component {
                           color: colors.white,
                           fontWeight: 'bold',
                         }}>
-                        336,851
+                        <AnimateNumber
+                          value={dataStats.cases}
+                          countBy={123456}
+                          interval={5}
+                        />
+                        {/* {accounting.formatNumber(dataGlobal.cases)} */}
                       </Text>
                     </View>
                     <View
                       style={{
                         flex: 1,
                         marginLeft: 5,
-                        backgroundColor: colors.redDeaths,
+                        backgroundColor: colors.blueActive,
                         borderRadius: 5,
                         justifyContent: 'space-between',
                         padding: 10,
@@ -169,7 +209,7 @@ class StatisticsScreen extends React.Component {
                           color: colors.white,
                           fontWeight: 'bold',
                         }}>
-                        Deaths
+                        Active
                       </Text>
                       <Text
                         style={{
@@ -177,7 +217,15 @@ class StatisticsScreen extends React.Component {
                           color: colors.white,
                           fontWeight: 'bold',
                         }}>
-                        9,620
+                        <AnimateNumber
+                          value={dataStats.active}
+                          countBy={123456}
+                          interval={5}
+                          // formatter={() => {
+                          //   return accounting.formatNumber(dataGlobal.cases);
+                          // }}
+                        />
+                        {/* {accounting.formatNumber(dataGlobal.active)} */}
                       </Text>
                     </View>
                   </View>
@@ -205,7 +253,15 @@ class StatisticsScreen extends React.Component {
                           color: colors.white,
                           fontWeight: 'bold',
                         }}>
-                        336,851
+                        <AnimateNumber
+                          value={dataStats.recovered}
+                          countBy={100000}
+                          interval={5}
+                          // formatter={() => {
+                          //   return accounting.formatNumber(dataGlobal.cases);
+                          // }}
+                        />
+                        {/* {accounting.formatNumber(dataGlobal.recovered)} */}
                       </Text>
                     </View>
                     <View
@@ -213,7 +269,7 @@ class StatisticsScreen extends React.Component {
                         flex: 1,
                         marginRight: 5,
                         marginLeft: 5,
-                        backgroundColor: colors.blueActive,
+                        backgroundColor: colors.redDeaths,
                         borderRadius: 5,
                         justifyContent: 'space-between',
                         padding: 10,
@@ -224,7 +280,7 @@ class StatisticsScreen extends React.Component {
                           color: colors.white,
                           fontWeight: 'bold',
                         }}>
-                        Active
+                        Deaths
                       </Text>
                       <Text
                         style={{
@@ -232,7 +288,15 @@ class StatisticsScreen extends React.Component {
                           color: colors.white,
                           fontWeight: 'bold',
                         }}>
-                        336,851
+                        <AnimateNumber
+                          value={dataStats.deaths}
+                          countBy={10000}
+                          interval={5}
+                          // formatter={() => {
+                          //   return accounting.formatNumber(dataGlobal.cases);
+                          // }}
+                        />
+                        {/* {accounting.formatNumber(dataGlobal.deaths)} */}
                       </Text>
                     </View>
                     <View
@@ -258,7 +322,15 @@ class StatisticsScreen extends React.Component {
                           color: colors.white,
                           fontWeight: 'bold',
                         }}>
-                        336,851
+                        <AnimateNumber
+                          value={dataStats.critical}
+                          countBy={10000}
+                          interval={5}
+                          // formatter={() => {
+                          //   return accounting.formatNumber(dataGlobal.cases);
+                          // }}
+                        />
+                        {/* {accounting.formatNumber(dataGlobal.critical)} */}
                       </Text>
                     </View>
                   </View>
