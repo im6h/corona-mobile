@@ -1,6 +1,6 @@
 import apiService from '../../Services/index';
 import {observable, action} from 'mobx';
-import {createContext} from 'react';
+
 class Country {
   @observable countries = [];
   @action async getCountries() {
@@ -10,9 +10,9 @@ class Country {
         this.countries = response.data;
       }
     } catch (e) {
-      console.log(e);
+      console.log('Loi roi');
     }
   }
 }
-const countryStore = createContext(new Country());
+const countryStore = new Country();
 export default countryStore;

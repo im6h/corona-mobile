@@ -3,15 +3,15 @@ class ApiService {
   constructor() {}
 
   async getDataGlobal() {
-    return axios.get('https://corona.lmao.ninja/all');
+    return axios.get('https://corona.lmao.ninja/v2/all');
   }
 
-  async getDataCountry() {
-    return axios.get('https://corona.lmao.ninja/countries/VN');
+  async getDataCountry(country) {
+    return axios.get(`https://corona.lmao.ninja/v2/countries/${country}`);
   }
 
-  async getCountry() {
-    return axios.get('https://corona.lmao.ninja/countries/');
+  async getCountries() {
+    return axios.get('https://corona.lmao.ninja/v2/countries/');
   }
 }
 const apiService = new ApiService();

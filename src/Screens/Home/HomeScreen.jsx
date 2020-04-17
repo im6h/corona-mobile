@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   View,
@@ -9,7 +9,6 @@ import {
   ScrollView,
   Image,
   FlatList,
-  TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
@@ -20,48 +19,54 @@ import AvoidContact from '../../Assets/Svgs/XMLID80.svg';
 import CleanHand from '../../Assets/Svgs/XMLID15.svg';
 import Facemask from '../../Assets/Svgs/Group.svg';
 import Banner from '../../Assets/Svgs/Group32.svg';
-import Axios from 'axios';
-
+import {observer} from 'mobx-react';
+import countryStore from '../../Stores/Country/Country';
+import statsStore from '../../Stores/Stats/Stats';
 const screenWidth = Dimensions.get('window').width;
+const Item = ({item, closeModal}) => {
+  return (
+    <TouchableOpacity
+      style={{
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        margin: 10,
+        padding: 10,
+      }}
+      onPress={() => {
+        closeModal();
+        statsStore.setMyCountry(item.countryInfo);
+      }}>
+      <Image
+        source={{uri: item.countryInfo.flag}}
+        style={{
+          height: 30,
+          width: 30,
+          borderRadius: 50,
+        }}
+      />
+      <View
+        style={{width: '75%', justifyContent: 'flex-start', marginLeft: 20}}>
+        <Text>{item.country}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
-const HomeScreen = () => {
+const HomeScreen = observer(() => {
   const [visible, setVisible] = useState(false);
   const [countries, setCountries] = useState([]);
   const handleModal = () => {
     setVisible(!visible);
   };
-
-  const fetchCountries = async () => {
-    const response = await Axios.get('https://corona.lmao.ninja/countries/');
-    if (response.status === 200 && response.data) {
-      let data = response.data;
-      setCountries(data);
-    }
-  };
-  const Item = ({item}) => {
-    return (
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          margin: 10,
-        }}>
-        <Image
-          source={{uri: item.countryInfo.flag}}
-          style={{
-            height: 25,
-            width: 25,
-            borderRadius: 50,
-          }}
-        />
-        <View style={{justifyContent: 'flex-start', marginLeft: 20}}>
-          <Text>{item.country}</Text>
-        </View>
-      </View>
-    );
-  };
+  useEffect(() => {
+    countryStore.getCountries();
+    setCountries(countryStore.countries);
+  }, [countryStore.countries]);
+  useEffect(() => {
+    statsStore.readMycountry();
+  }, []);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
       {visible && (
@@ -73,6 +78,10 @@ const HomeScreen = () => {
                 width: '100%',
                 flexDirection: 'row-reverse',
                 padding: 10,
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottomWidth: 0.5,
+                borderColor: colors.violetSerious,
               }}>
               <TouchableOpacity
                 onPress={() => {
@@ -80,6 +89,19 @@ const HomeScreen = () => {
                 }}>
                 <Icon name="ios-close-circle-outline" size={25} />
               </TouchableOpacity>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={[
+                    styles.textPrevent,
+                    {fontSize: fonts.sm, color: colors.redCallNow},
+                  ]}>
+                  List countries affeted by Corona
+                </Text>
+              </View>
             </View>
             <View
               style={{
@@ -89,10 +111,10 @@ const HomeScreen = () => {
               }}>
               <FlatList
                 data={countries}
-                extraData={countries}
+                extraData={countryStore.countries}
                 keyExtractor={({item}, index) => index.toString()}
                 renderItem={({item}) => {
-                  return <Item item={item} />;
+                  return <Item item={item} closeModal={handleModal} />;
                 }}
               />
             </View>
@@ -120,7 +142,6 @@ const HomeScreen = () => {
                 }}
                 onPress={() => {
                   handleModal();
-                  fetchCountries();
                 }}>
                 <View
                   style={{
@@ -138,14 +159,14 @@ const HomeScreen = () => {
                       height: 25,
                       width: 25,
                       borderRadius: 50,
+                      borderWidth: 0.3,
                     }}
                     source={{
-                      uri:
-                        'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/vn.png',
+                      uri: statsStore.countrySelect.flag,
                     }}
                   />
                   <Text style={[styles.textPrevent, {fontSize: fonts.md}]}>
-                    VN
+                    {statsStore.countrySelect.iso2}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -225,7 +246,7 @@ const HomeScreen = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+});
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -331,7 +352,7 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     height: '90%',
-    width: '80%',
+    width: '90%',
     marginTop: 10,
     backgroundColor: colors.white,
     shadowColor: '#000',
