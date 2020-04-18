@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {inject, observer} from 'mobx-react';
 import accounting from 'accounting';
 import AnimateNumber from 'react-native-animate-number';
+
 const {width} = Dimensions.get('window');
 
 @inject('statsStore')

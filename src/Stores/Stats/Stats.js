@@ -19,7 +19,7 @@ class Stats {
 
   @action async readMycountry() {
     try {
-      let data = await AsyncStorage.getItem('name');
+      let data = await AsyncStorage.getItem('country');
       if (data !== null) {
         this.countrySelect = JSON.parse(data);
       } else {
@@ -34,7 +34,15 @@ class Stats {
         };
       }
     } catch (e) {
-      // error reading value
+      this.countrySelect = {
+        _id: 704,
+        iso2: 'VN',
+        iso3: 'VNM',
+        lat: 21,
+        long: 105.8,
+        flag:
+          'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/vn.png',
+      };
     }
   }
 

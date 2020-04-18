@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "android:build": "cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.9.0",
@@ -26,7 +27,9 @@
     "react-native-animate-number": "^0.1.2",
     "react-native-custom-picker": "^0.4.0",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-modal-animated": "^0.0.2",
     "react-native-paper": "^3.8.0",
+    "react-native-pure-chart": "^0.0.24",
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.4.0",

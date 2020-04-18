@@ -22,6 +22,9 @@ import Banner from '../../Assets/Svgs/Group32.svg';
 import {observer} from 'mobx-react';
 import countryStore from '../../Stores/Country/Country';
 import statsStore from '../../Stores/Stats/Stats';
+
+import {AnimatedModal} from 'react-native-modal-animated';
+
 const screenWidth = Dimensions.get('window').width;
 const Item = ({item, closeModal}) => {
   return (
@@ -69,7 +72,11 @@ const HomeScreen = observer(() => {
   }, []);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
-      {visible && (
+      <AnimatedModal
+        visible={visible}
+        duration={100}
+        animationType
+        modalCardPosition>
         <View style={styles.modal}>
           <View style={styles.modalContent}>
             <View
@@ -120,7 +127,7 @@ const HomeScreen = observer(() => {
             </View>
           </View>
         </View>
-      )}
+      </AnimatedModal>
 
       <ScrollView style={{flex: 1, backgroundColor: colors.white}}>
         <View style={styles.container}>
