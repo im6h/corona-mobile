@@ -13,6 +13,12 @@ class ApiService {
   async getCountries() {
     return axios.get('https://corona.lmao.ninja/v2/countries/');
   }
+
+  async getNews(offset) {
+    return axios.get(
+      `https://api.coronatracker.com/news/trending?limit=9&offset=${offset}&language=en`,
+    );
+  }
 }
 const apiService = new ApiService();
 export default apiService;

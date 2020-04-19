@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Text, StyleSheet, SafeAreaView, Dimensions} from 'react-native';
 import {observer} from 'mobx-react';
 import colors from '../../Themes/colors';
-import statsStore from '../../Stores/Stats/Stats';
 import Icon from 'react-native-vector-icons/Ionicons';
 import fonts from '../../Themes/fonts';
 import Symptom from '../../Assets/Svgs/symptom.svg';
@@ -52,7 +51,7 @@ const AlerScreen = observer(() => {
                 paddingRight: 5,
                 borderWidth: 0.4,
                 borderRadius: 10,
-                marginBottom: 20,
+                marginBottom: 30,
                 borderColor: 'transparent',
                 backgroundColor: '#F9FAFC',
               }}>

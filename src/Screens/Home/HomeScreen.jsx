@@ -72,7 +72,7 @@ const HomeScreen = observer(() => {
   }, []);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
-      <AnimatedModal
+      {/* <AnimatedModal
         visible={visible}
         duration={100}
         animationType
@@ -127,7 +127,7 @@ const HomeScreen = observer(() => {
             </View>
           </View>
         </View>
-      </AnimatedModal>
+      </AnimatedModal> */}
 
       <ScrollView style={{flex: 1, backgroundColor: colors.white}}>
         <View style={styles.container}>
