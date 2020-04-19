@@ -1,13 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-  FlatList,
-} from 'react-native';
+import {SafeAreaView, Text, View, StyleSheet, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import colors from '../../Themes/colors';
 import fonts from '../../Themes/fonts';
@@ -16,19 +8,17 @@ import newStore from '../../Stores/New/New';
 import {observer} from 'mobx-react';
 
 const NewScreen = observer(() => {
-  const [news, setNews] = useState([]);
+  const [newfeed, setNewfeed] = useState([]);
   const [offset, setOffset] = useState(0);
-  const fetchData = () => {
+  const loadMore = () => {
     setOffset(offset + 9);
   };
+
   useEffect(() => {
-    newStore.getListNews(offset);
-    setNews(newStore.listNews);
-  }, []);
-  useEffect(() => {
-    newStore.getListNews(offset);
-    let more = news.concat(newStore.listNews);
-    setNews(more);
+    newStore.getListNews(offset).then(() => {
+      let more = newfeed.concat(newStore.listNews);
+      setNewfeed(more);
+    });
   }, [offset]);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
@@ -45,19 +35,19 @@ const NewScreen = observer(() => {
           <View
             style={{
               flex: 1,
-              marginTop: 20,
             }}>
             <Text style={[styles.title]}>Latest News</Text>
           </View>
         </View>
         <View style={styles.bottom}>
           <FlatList
-            data={news}
+            data={newfeed}
             keyExtractor={({item}, index) => index.toString()}
-            extraData={news.length > 0 ? news : newStore.listNews}
+            extraData={newfeed}
             onEndReached={() => {
-              fetchData();
+              loadMore();
             }}
+            onEndReachedThreshold={0.4}
             renderItem={({item}) => {
               return <Card item={item} />;
             }}
@@ -75,14 +65,14 @@ const styles = StyleSheet.create({
   top: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
-    borderBottomRightRadius: 20,
-    borderBottomLeftRadius: 20,
     paddingLeft: 24,
     paddingRight: 24,
     paddingTop: 20,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   bottom: {
-    flex: 5,
+    flex: 9,
   },
   toolBar: {
     flex: 1,

@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontWeight: 'bold',
+    fontWeight: '500',
     fontSize: fonts.sm,
   },
   date: {
@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
+    marginTop: 10,
   },
   small: {
     fontSize: 12,
