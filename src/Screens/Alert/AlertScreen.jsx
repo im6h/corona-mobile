@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, SafeAreaView, Dimensions} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import {observer} from 'mobx-react';
 import colors from '../../Themes/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -25,6 +32,19 @@ const AlerScreen = observer(() => {
             <Text style={[styles.textTitle, {fontWeight: 'bold'}]}>
               What is COVID-19?
             </Text>
+            <Text
+              style={[
+                styles.textTitle,
+                {
+                  fontSize: fonts.sm,
+                  color: colors.white,
+                  marginTop: 15,
+                },
+              ]}>
+              Coronavirus disease 2019 (COVID-19) is an infectious disease
+              caused by severe acute respiratory syndrome coronavirus 2
+              (SARS-CoV-2).
+            </Text>
           </View>
         </View>
         <View style={styles.bottom}>
@@ -38,7 +58,7 @@ const AlerScreen = observer(() => {
                   marginBottom: 5,
                 },
               ]}>
-              COVID-19
+              SPREAD
             </Text>
             <View
               style={{
@@ -66,16 +86,20 @@ const AlerScreen = observer(() => {
                     width: '60%',
                   },
                 ]}>
-                Coronavirus disease 2019 (COVID-19) is an infectious disease
-                caused by severe acute respiratory syndrome coronavirus 2
-                (SARS-CoV-2).
+                COVID-19 is thought to spread mainly through close contact from
+                person-to-person in respiratory droplets from someone who is
+                infected.
               </Text>
             </View>
 
             <Text
               style={[
                 styles.textTitle,
-                {fontWeight: 'bold', color: colors.redCallNow, marginBottom: 5},
+                {
+                  fontWeight: 'bold',
+                  color: colors.redCallNow,
+                  marginBottom: 5,
+                },
               ]}>
               COMMON
             </Text>
@@ -138,7 +162,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   bottom: {
-    flex: 4,
+    flex: 5,
     backgroundColor: colors.white,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
