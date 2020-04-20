@@ -176,6 +176,7 @@ const HomeScreen = observer(() => {
                   <Text style={[styles.textPrevent, {fontSize: fonts.md}]}>
                     {statsStore.countrySelect.iso2}
                   </Text>
+                  <Icon name="md-arrow-dropdown" size={20} />
                 </View>
               </TouchableOpacity>
             </View>

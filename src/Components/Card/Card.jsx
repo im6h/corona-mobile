@@ -12,7 +12,7 @@ const Card = (props) => {
         <Image style={styles.image} source={{uri: item.urlToImage}} />
         <View style={styles.content}>
           <Text style={styles.title}>{item.title}</Text>
-          {/* <Text style={styles.body}>{item.description}</Text> */}
+
           <View style={styles.date}>
             <Text style={styles.small}>{item.siteName}</Text>
             <Text style={styles.small}>{time}</Text>
@@ -25,8 +25,8 @@ const Card = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   card: {
     flex: 1,

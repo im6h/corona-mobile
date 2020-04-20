@@ -326,6 +326,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundColor,
     paddingLeft: 24,
     paddingRight: 24,
+    paddingTop: 10,
   },
   bottom: {
     flex: 1,
@@ -334,8 +335,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     paddingLeft: 20,
     paddingRight: 20,
-    marginTop: 20,
-    paddingTop: 20,
+    marginTop: 10,
+    paddingTop: 10,
   },
   toolBar: {
     flex: 1,

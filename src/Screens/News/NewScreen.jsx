@@ -10,6 +10,7 @@ import {observer} from 'mobx-react';
 const NewScreen = observer(() => {
   const [newfeed, setNewfeed] = useState([]);
   const [offset, setOffset] = useState(0);
+
   const loadMore = () => {
     setOffset(offset + 9);
   };
@@ -35,6 +36,7 @@ const NewScreen = observer(() => {
           <View
             style={{
               flex: 1,
+              marginTop: 10,
             }}>
             <Text style={[styles.title]}>Latest News</Text>
           </View>
@@ -60,7 +62,7 @@ const NewScreen = observer(() => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.backgroundColor,
   },
   top: {
     flex: 1,
@@ -68,11 +70,13 @@ const styles = StyleSheet.create({
     paddingLeft: 24,
     paddingRight: 24,
     paddingTop: 20,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
   },
   bottom: {
-    flex: 9,
+    flex: 5,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    padding: 10,
   },
   toolBar: {
     flex: 1,
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    fontSize: fonts.lg,
+    fontSize: fonts.xl,
     color: colors.white,
     fontWeight: 'bold',
   },
