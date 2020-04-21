@@ -14,7 +14,7 @@ const NewScreen = observer(() => {
   const loadMore = () => {
     setOffset(offset + 9);
   };
-
+  const hideTitle = () => {};
   useEffect(() => {
     newStore.getListNews(offset).then(() => {
       let more = newfeed.concat(newStore.listNews);
@@ -48,6 +48,9 @@ const NewScreen = observer(() => {
             extraData={newfeed}
             onEndReached={() => {
               loadMore();
+            }}
+            onScrollBeginDrag={() => {
+              hideTitle();
             }}
             onEndReachedThreshold={0.4}
             renderItem={({item}) => {

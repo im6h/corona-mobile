@@ -19,6 +19,12 @@ class ApiService {
       `https://api.coronatracker.com/news/trending?limit=9&offset=${offset}&language=en`,
     );
   }
+
+  async getStatsCountryByCodeAndDate(countryCode, startDate, endDate) {
+    return axios.get(
+      `https://api.coronatracker.com/v3/analytics/trend/country?countryCode=${countryCode}&startDate=${startDate}&endDate=${endDate}`,
+    );
+  }
 }
 const apiService = new ApiService();
 export default apiService;

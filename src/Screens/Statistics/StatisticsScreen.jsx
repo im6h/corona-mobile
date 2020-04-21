@@ -16,7 +16,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {inject, observer} from 'mobx-react';
 import accounting from 'accounting';
 import AnimateNumber from 'react-native-animate-number';
-
+import PureChart from 'react-native-pure-chart';
+import moment from 'moment';
+import _ from 'lodash';
 const {width} = Dimensions.get('window');
 
 @inject('statsStore')
@@ -31,6 +33,7 @@ class StatisticsScreen extends React.Component {
   };
   async componentDidMount() {
     await this.fetchDataCountry();
+    // await this.fetchStatsCountryByCodeAndDate();
   }
 
   handleSlide = (type) => {
@@ -59,9 +62,82 @@ class StatisticsScreen extends React.Component {
       this.props.statsStore.getDataCountry();
     }
   };
+
   render() {
     let {xTabOne, xTabTwo, translateX, active} = this.state;
-    let {dataStats} = this.props.statsStore;
+    let {dataStats, countrySelect} = this.props.statsStore;
+    const data =
+      !_.isEmpty(this.props.statsStore.statsCountryByCodeAndDate) &&
+      this.props.statsStore.statsCountryByCodeAndDate;
+
+    let confirmedLine = _.map(data, (element) => {
+      return _.assign(
+        {
+          x: element.last_updated.slice(5, 10),
+          y: element.total_confirmed,
+        },
+        _.omit(
+          element,
+          'last_updated',
+          'total_deaths',
+          'country_code',
+          'total_recovered',
+          'total_confirmed',
+          'country',
+        ),
+      );
+    });
+    let deathsLine = _.map(data, (element) => {
+      return _.assign(
+        {
+          x: element.last_updated.slice(5, 10),
+          y: element.total_deaths,
+        },
+        _.omit(
+          element,
+          'last_updated',
+          'total_deaths',
+          'country_code',
+          'total_recovered',
+          'total_confirmed',
+          'country',
+        ),
+      );
+    });
+    let recoveredLine = _.map(data, (element) => {
+      return _.assign(
+        {
+          x: element.last_updated.slice(5, 10),
+          y: element.total_recovered,
+        },
+        _.omit(
+          element,
+          'last_updated',
+          'total_deaths',
+          'country_code',
+          'total_recovered',
+          'total_confirmed',
+          'country',
+        ),
+      );
+    });
+    const sampleData = [
+      {
+        seriesName: 'series1',
+        data: confirmedLine,
+        color: colors.orangeAffect,
+      },
+      {
+        seriesName: 'series2',
+        data: deathsLine,
+        color: colors.redDeaths,
+      },
+      {
+        seriesName: 'series3',
+        data: recoveredLine,
+        color: colors.greenRecovered,
+      },
+    ];
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: colors.backgroundColor}}>
         {/* <ScrollView style={{flex: 1, backgroundColor: colors.white}}> */}
@@ -307,7 +383,10 @@ class StatisticsScreen extends React.Component {
             </View>
           </View>
           <View style={styles.bottom}>
-            <Text style={styles.textStatis}>Chart</Text>
+            <Text style={styles.textStatis}>Chart of {countrySelect.iso2}</Text>
+            <View style={styles.chartCountry}>
+              {data && <PureChart data={sampleData} type="bar" />}
+            </View>
           </View>
         </View>
         {/* </ScrollView> */}
@@ -397,6 +476,13 @@ const styles = StyleSheet.create({
     marginTop: 5,
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  chartCountry: {
+    flex: 1,
+    paddingLeft: 10,
+    paddingRight: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 export default StatisticsScreen;
