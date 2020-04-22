@@ -37,17 +37,12 @@ class StatisticsScreen extends React.Component {
   }
 
   handleSlide = (type) => {
-    let {translateX, valueInit} = this.state;
+    let {translateX} = this.state;
     Animated.spring(translateX, {
       toValue: type,
       duration: 200,
       useNativeDriver: true,
     }).start();
-  };
-  transformNumber = (value) => {
-    Animated.timing(value, {
-      duration: 500,
-    });
   };
   fetchData = (data) => {
     console.log(data);
@@ -161,7 +156,6 @@ class StatisticsScreen extends React.Component {
                     position: 'absolute',
                     width: '47%',
                     height: '78%',
-
                     left: 5,
                     backgroundColor: colors.white,
                     borderRadius: 40,
