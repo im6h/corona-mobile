@@ -24,7 +24,6 @@ class Stats {
       let data = await AsyncStorage.getItem('country');
       if (data !== null) {
         this.countrySelect = JSON.parse(data);
-        this.getStatsCountryByCodeAndDate();
       } else {
         this.countrySelect = {
           _id: 704,
@@ -36,6 +35,7 @@ class Stats {
             'https://raw.githubusercontent.com/NovelCOVID/API/master/assets/flags/vn.png',
         };
       }
+      this.getStatsCountryByCodeAndDate();
     } catch (e) {
       this.countrySelect = {
         _id: 704,
