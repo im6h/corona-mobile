@@ -19,7 +19,7 @@
     "@react-navigation/native": "^5.1.5",
     "accounting": "^0.4.1",
     "axios": "^0.19.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "mobx-react-lite": "^2.0.6",
