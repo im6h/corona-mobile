@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 class ApiService {
   constructor() {}
 
@@ -15,14 +16,21 @@ class ApiService {
   }
 
   async getNews(offset) {
-    return axios.get(
-      `https://api.coronatracker.com/news/trending?limit=9&offset=${offset}&language=en`,
-    );
+    return axios.get(`https://api.coronatracker.com/news/trending`, {
+      limit: 9,
+      offset,
+      language: 'en',
+    });
   }
 
   async getStatsCountryByCodeAndDate(countryCode, startDate, endDate) {
     return axios.get(
-      `https://api.coronatracker.com/v3/analytics/trend/country?countryCode=${countryCode}&startDate=${startDate}&endDate=${endDate}`,
+      `https://api.coronatracker.com/v3/analytics/trend/country`,
+      {
+        countryCode,
+        startDate,
+        endDate,
+      },
     );
   }
 }

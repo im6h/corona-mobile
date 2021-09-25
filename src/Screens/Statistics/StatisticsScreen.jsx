@@ -44,14 +44,13 @@ class StatisticsScreen extends React.Component {
       useNativeDriver: true,
     }).start();
   };
-  fetchData = (data) => {
-    console.log(data);
-  };
+
   fetchDataGlobal = async () => {
     if (this.state.active === 1) {
       this.props.statsStore.getDataGlobal();
     }
   };
+
   fetchDataCountry = async () => {
     if (this.state.active === 0) {
       this.props.statsStore.getDataCountry();
@@ -65,7 +64,7 @@ class StatisticsScreen extends React.Component {
       !_.isEmpty(this.props.statsStore.statsCountryByCodeAndDate) &&
       this.props.statsStore.statsCountryByCodeAndDate;
 
-    let confirmedLine = _.map(data, (element) => {
+    const confirmedLine = _.map(data, (element) => {
       return _.assign(
         {
           x: element.last_updated.slice(5, 10),
@@ -82,7 +81,7 @@ class StatisticsScreen extends React.Component {
         ),
       );
     });
-    let deathsLine = _.map(data, (element) => {
+    const deathsLine = _.map(data, (element) => {
       return _.assign(
         {
           x: element.last_updated.slice(5, 10),
@@ -99,7 +98,7 @@ class StatisticsScreen extends React.Component {
         ),
       );
     });
-    let recoveredLine = _.map(data, (element) => {
+    const recoveredLine = _.map(data, (element) => {
       return _.assign(
         {
           x: element.last_updated.slice(5, 10),

@@ -10,7 +10,7 @@ class Country {
         this.countries = response.data;
       }
     } catch (e) {
-      console.log('Loi roi');
+      console.log(e.message);
     }
   }
 }

@@ -44,7 +44,7 @@ const NewScreen = observer(() => {
         <View style={styles.bottom}>
           <FlatList
             data={newfeed}
-            keyExtractor={({item}, index) => index.toString()}
+            keyExtractor={(_, index) => index.toString()}
             extraData={newfeed}
             onEndReached={() => {
               loadMore();
@@ -53,9 +53,7 @@ const NewScreen = observer(() => {
               hideTitle();
             }}
             onEndReachedThreshold={0.4}
-            renderItem={({item}) => {
-              return <Card item={item} />;
-            }}
+            renderItem={({item}) => (<Card item={item}/>) }
           />
         </View>
       </View>

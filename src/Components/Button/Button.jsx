@@ -2,14 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 function Button(props) {
-  let backgroundColor = props.backgroundColor;
-  let height = props.height;
-  let width = props.width;
-  let icon = props.icon;
-  let content = props.content;
-  let colorIcon = props.colorIcon;
-  let fontSize = props.fontSize;
-  let fontColor = props.fontColor;
+  let {backgroundColor , height, width, icon, content, colorIcon, fontSize, fontColor}= props;
   return (
     <TouchableOpacity
       style={{
